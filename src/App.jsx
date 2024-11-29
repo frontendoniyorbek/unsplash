@@ -4,7 +4,7 @@ import './App.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 // pages
-import { Home, About, Contact } from './pages';
+import { Home, About, Contact, LikedImages } from './pages';
 
 // layouts
 import MainLayout from './layouts/MainLayout';
@@ -18,6 +18,7 @@ function App() {
 				{ index: true, element: <Home /> },
 				{ path: '/about', element: <About /> },
 				{ path: '/contact', element: <Contact /> },
+				{ path: '/likedImages', element: <LikedImages /> },
 			],
 		},
 	]);
