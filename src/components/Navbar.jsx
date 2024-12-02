@@ -1,15 +1,36 @@
+import { useEffect, useState } from 'react';
 // react router dom
 import { Link } from 'react-router-dom';
 
 // react icons
 import { FcStackOfPhotos } from 'react-icons/fc';
-import { FaHeart } from 'react-icons/fa';
-import { FaSun, FaMoon } from 'react-icons/fa';
+import { FaHeart, FaSun, FaMoon } from 'react-icons/fa';
 
 //components
 import { NavLinks } from './';
 
+const themeFromLocalStore = () => {
+	return localStorage.getItem('theme') || 'winter';
+};
+
 const Navbar = () => {
+	const [theme, setTheme] = useState(themeFromLocalStore());
+
+	const toggleTheme = () => {
+		const newTheme = theme === 'winter' ? 'dracula' : 'winter';
+		setTheme(newTheme);
+	};
+
+	useEffect(() => {
+		// DOM mavjudligini tekshirish
+		if (typeof document !== 'undefined' && document.documentElement) {
+			localStorage.setItem('theme', theme);
+			document.documentElement.setAttribute('data-theme', theme);
+		} else {
+			console.error('document is undefined or document.documentElement is not accessible');
+		}
+	}, [theme]);
+
 	return (
 		<header className='bg-base-200'>
 			<div className='navbar ailign-elements'>
@@ -28,7 +49,7 @@ const Navbar = () => {
 					</div>
 				</div>
 				<div className='navbar-center hidden md:flex'>
-					<ul className='menu menu-horizontal  rounded-box'>
+					<ul className='menu menu-horizontal rounded-box'>
 						<NavLinks />
 					</ul>
 				</div>
@@ -41,14 +62,9 @@ const Navbar = () => {
 					</Link>
 
 					<label className='swap swap-rotate'>
-						{/* this hidden checkbox controls the state */}
-						<input type='checkbox' />
-
-						{/* sun icon */}
-						<FaSun className='swap-on h-6 w-6 fill-current' />
-
-						{/* moon icon */}
-						<FaMoon className='swap-off h-6 w-6 fill-current' />
+						<input type='checkbox' onClick={toggleTheme} />
+						<FaSun className='swap-off h-6 w-6 fill-current' />
+						<FaMoon className='swap-on h-6 w-6 fill-current' />
 					</label>
 				</div>
 			</div>
